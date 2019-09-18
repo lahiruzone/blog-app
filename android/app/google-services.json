@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1029508617680",
+    "firebase_url": "https://blogapp-412e9.firebaseio.com",
+    "project_id": "blogapp-412e9",
+    "storage_bucket": "blogapp-412e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029508617680:android:4dec767fc0e9f8263e95d5",
+        "android_client_info": {
+          "package_name": "com.example.mychurch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029508617680-p7rs4581mekerei7fovtcgramrd24j8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfAu5zBXuiRvz4VvixOyzDxRd3sBTYSh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029508617680-p7rs4581mekerei7fovtcgramrd24j8j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029508617680:android:396bea097e7cc70f3e95d5",
+        "android_client_info": {
+          "package_name": "com.roralabs.blog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029508617680-p7rs4581mekerei7fovtcgramrd24j8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfAu5zBXuiRvz4VvixOyzDxRd3sBTYSh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029508617680-p7rs4581mekerei7fovtcgramrd24j8j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
