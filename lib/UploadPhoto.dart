@@ -85,7 +85,7 @@ class _UploadPhotoState extends State<UploadPhoto>{
     DatabaseReference ref = FirebaseDatabase.instance.reference();
 
     var data ={
-      // "image": url,
+      "image": url,
       "description": _myValue,
       "date": date,
       "time": time,
