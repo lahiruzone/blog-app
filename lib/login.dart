@@ -45,19 +45,21 @@ class _LoginState extends State<Login>{
   }
 
   void validateAndSubmit() async{
-    if(validateSave()){
+    dailogBox.onLoading(context);
+    if(validateSave()){     
       try{
         if(_formType == FormType.login){
           String userId = await widget.auth.signIn(_email, _password);
-          dailogBox.information(context, "Hello", "You are logged in Successfully!");
           print("Login UserID = "+ userId);
         }else{
           String userId = await widget.auth.signUp(_email, _password);
           dailogBox.information(context, "Hello", "Your Account has been created Successfully!");
           print("Register UserID ="+ userId);
         }
+        Navigator.of(context).pop(); 
         widget.onSignedIn();
       }catch(e){
+        Navigator.of(context).pop(); 
         dailogBox.information(context, "Error", e.toString());
         print("Error  "+e.toString());
       }

@@ -30,13 +30,8 @@ class ShowDailog {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(30.0),
-          // margin: EdgeInsets.all(50.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[CircularProgressIndicator(), Text('Uploading')],
-          ),
+        return Center(
+          child: CircularProgressIndicator(),
         );
       },
     );
