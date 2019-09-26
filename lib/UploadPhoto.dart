@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'home.dart';
+import 'ShowDailog.dart';
 
 class UploadPhoto extends StatefulWidget{
   State<StatefulWidget> createState(){
@@ -13,6 +14,8 @@ class UploadPhoto extends StatefulWidget{
 }
 
 class _UploadPhotoState extends State<UploadPhoto>{
+
+  ShowDailog dailogBox = new ShowDailog();
 
   File sampleImage;
   String _myValue;
@@ -57,6 +60,8 @@ class _UploadPhotoState extends State<UploadPhoto>{
 
   void uploadStatus() async{
     if(validateAndSave()){
+      dailogBox.onLoading(context);
+      
       final StorageReference postImageRef = FirebaseStorage.instance.ref().child("Post_Images");
       
       //random key for image name
@@ -66,11 +71,13 @@ class _UploadPhotoState extends State<UploadPhoto>{
       var imageUrl = await(await uploadTask.onComplete).ref.getDownloadURL();
       url = imageUrl.toString();
 
-      goToHomePage;
       saveToDatabase(url);
-
+      Navigator.of(context).pop(); 
+      Navigator.of(context).pop(); //Go back to home page
     }
   }
+
+  
 
   void saveToDatabase(url){
     //get date and time separatly
@@ -94,14 +101,6 @@ class _UploadPhotoState extends State<UploadPhoto>{
     ref.child("Posts").push().set(data);
   }
 
-  void goToHomePage(){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context){
-        return new Home();
-      })
-    );
-  }
 
   Widget enableUpload(){
     return new Container(

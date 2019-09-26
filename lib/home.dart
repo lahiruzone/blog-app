@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
   void logOutUser() async {
     try {
       widget.auth.signOut();
-      widget.onSignedOut;
+      widget.onSignedOut();
     } catch (e) {
       print(e.toString());
     }
@@ -33,8 +33,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    DatabaseReference postRef =
-        FirebaseDatabase.instance.reference().child('Posts');
+
+    DatabaseReference postRef = FirebaseDatabase.instance.reference().child('Posts');
 
     postRef.once().then((DataSnapshot dataSnapShot) {
       var KEYS = dataSnapShot.value.keys;
@@ -43,12 +43,16 @@ class _HomeState extends State<Home> {
       postList.clear();
 
       for (var key in KEYS) {
-        Post post = Post(DATA[key]['image'], DATA[key]['description'],
-            DATA[key]['date'], DATA[key]['time']);
-
+        Post post = Post(DATA[key]['image'], DATA[key]['description'], DATA[key]['date'], DATA[key]['time']);
         postList.add(post);
       }
+
+      setState(() {      });
+
     });
+
+    
+    
   }
 
   @override
@@ -74,14 +78,14 @@ class _HomeState extends State<Home> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               new IconButton(
-                icon: new Icon(Icons.remove),
-                iconSize: 50,
+                icon: new Icon(Icons.account_box),
+                iconSize: 25,
                 color: Colors.white,
                 onPressed: logOutUser,
               ),
               new IconButton(
                 icon: new Icon(Icons.add_a_photo),
-                iconSize: 50,
+                iconSize: 25,
                 color: Colors.white,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
