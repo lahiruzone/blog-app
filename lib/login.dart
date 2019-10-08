@@ -2,30 +2,21 @@ import 'package:flutter/material.dart';
 import 'Authentication.dart';
 import 'ShowDailog.dart';
 
-class Login extends StatefulWidget{
-
+class Login extends StatefulWidget {
   final AuthenticationImplimentation auth;
   final VoidCallback onSignedIn;
 
-  Login({
-    this.auth,
-    this.onSignedIn, onSignedOut
-  });
+  Login({this.auth, this.onSignedIn, onSignedOut});
 
   @override
   State<StatefulWidget> createState() {
-   return _LoginState();
+    return _LoginState();
   }
 }
 
-enum FormType{
-  login,
-  register
-}
+enum FormType { login, register }
 
-class _LoginState extends State<Login>{
-
-
+class _LoginState extends State<Login> {
   ShowDailog dailogBox = new ShowDailog();
   final formKey = new GlobalKey<FormState>();
   FormType _formType = FormType.login;
@@ -33,152 +24,236 @@ class _LoginState extends State<Login>{
   String _password = "";
 
   //methords
-  bool validateSave(){
+  bool validateSave() {
     final form = formKey.currentState;
 
-    if(form.validate()){
+    if (form.validate()) {
       form.save();
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
-  void validateAndSubmit() async{
-    dailogBox.onLoading(context);
-    if(validateSave()){     
-      try{
-        if(_formType == FormType.login){
+  void validateAndSubmit() async {
+    if (validateSave()) {
+      dailogBox.onLoading(context);
+      try {
+        if (_formType == FormType.login) {
           String userId = await widget.auth.signIn(_email, _password);
-          print("Login UserID = "+ userId);
-        }else{
+          print("Login UserID = " + userId);
+        } else {
           String userId = await widget.auth.signUp(_email, _password);
-          dailogBox.information(context, "Hello", "Your Account has been created Successfully!");
-          print("Register UserID ="+ userId);
+          dailogBox.information(
+              context, "Hello", "Your Account has been created Successfully!");
+          print("Register UserID =" + userId);
         }
-        Navigator.of(context).pop(); 
+        Navigator.of(context).pop();
         widget.onSignedIn();
-      }catch(e){
-        Navigator.of(context).pop(); 
+      } catch (e) {
+        Navigator.of(context).pop();
         dailogBox.information(context, "Error", e.toString());
-        print("Error  "+e.toString());
+        print("Error  " + e.toString());
       }
     }
   }
 
-  void moveToRegister(){
+  void moveToRegister() {
     formKey.currentState.reset();
     setState(() {
-          _formType = FormType.register;
-        });
+      _formType = FormType.register;
+    });
   }
 
-   void moveToLogin(){
+  void moveToLogin() {
     formKey.currentState.reset();
     setState(() {
-          _formType = FormType.login;
-        });
+      _formType = FormType.login;
+    });
   }
 
   //design
   @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        // appBar: new AppBar(
-        //   title: new Text('Blog App'),
-        // ),
-        body: new Container(
-          margin: EdgeInsets.all(30.0),
-          child: new Form(
-            key: formKey,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: createInputs() + createButton(),
-            ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: new AppBar(
+      //   title: new Text('Blog App'),
+      // ),
+      body: new Container(
+        margin: EdgeInsets.all(30.0),
+        child: new Form(
+          key: formKey,
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: createInputs() + createButton(),
           ),
         ),
-      );
-    }
-
-  //
-  List<Widget> createInputs(){
-    return [
-      SizedBox(height: 10.0,),
-      logo(),
-      SizedBox(height: 20.0,),
-      new TextFormField(
-        decoration: new InputDecoration(labelText: 'Email'),
-        validator: (value){
-          return value.isEmpty ? 'Email is reauired.' : null;
-        },
-        onSaved: (value){
-          return _email = value;
-        },
-      ),SizedBox(height: 10.0,),
-      new TextFormField(
-        decoration: new InputDecoration(labelText: 'Password'),
-        obscureText: true,
-         validator: (value){
-          return value.isEmpty ? 'Password is reauired.' : null;
-        },
-        onSaved: (value){
-          return _password = value;
-        },
-      ),
-      SizedBox(height: 20.0,)
-    ];
-  }
-
-  List<Widget> createButton(){
-    if(_formType == FormType.login){
-      return[
-        new RaisedButton(
-          child: new Text("Login", style: new TextStyle(fontSize: 20.0),),
-          textColor: Colors.white,
-          color: Colors.blue,
-          onPressed: validateAndSubmit,
-        ),
-
-        new FlatButton(
-          child: new Text("Not Have an Account? Create Account", style: new TextStyle(fontSize: 14.0),),
-          textColor: Colors.blue,
-          onPressed:moveToRegister,
-        )
-      ];
-
-    }else{
-      return[
-        new RaisedButton(
-          child: new Text("Create an Account", style: new TextStyle(fontSize: 20.0),),
-          textColor: Colors.white,
-          color: Colors.blue,
-          onPressed: validateAndSubmit,
-        ),
-
-        new FlatButton(
-          child: new Text("Have an Account? Login", style: new TextStyle(fontSize: 14.0),),
-          textColor: Colors.blue,
-          onPressed:moveToLogin,
-        )
-      ];
-    }
-    
-  }
-
-
-  Widget logo(){
-    return new Hero(
-      tag: 'Hero',
-      child: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: 80.0,
-        child: Image.asset('images/logo.png'),
       ),
     );
   }
 
+  //
+  List<Widget> createInputs() {
+    if (_formType == FormType.login) {
+      return [
+        SizedBox(
+          height: 10.0,
+        ),
+        logo(),
+        SizedBox(
+          height: 20.0,
+        ),
+        new TextFormField(
+          decoration: new InputDecoration(labelText: 'Email'),
+          validator: (value) {
+            return value.isEmpty ? 'Email is reauired.' : null;
+          },
+          onSaved: (value) {
+            return _email = value;
+          },
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        new TextFormField(
+          decoration: new InputDecoration(labelText: 'Password'),
+          obscureText: true,
+          validator: (value) {
+            return value.isEmpty ? 'Password is reauired.' : null;
+          },
+          onSaved: (value) {
+            return _password = value;
+          },
+        ),
+        SizedBox(
+          height: 30.0,
+        )
+      ];
 
-    
+    } else {
+      return [
+        SizedBox(
+          height: 10.0,
+        ),
+        logo(),
+        SizedBox(
+          height: 20.0,
+        ),
+        new TextFormField(
+          decoration: new InputDecoration(labelText: 'First Name'),
+          validator: (value) {
+            return value.isEmpty ? 'First Name is reauired.' : null;
+          },
+          onSaved: (value) {
+            return _email = value;
+          },
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        new TextFormField(
+            decoration: new InputDecoration(labelText: 'Last Name'),
+            validator: (value) {
+              return value.isEmpty ? 'Last is reauired.' : null;
+            }),
+        SizedBox(
+          height: 10.0,
+        ),
+        new TextFormField(
+          decoration: new InputDecoration(labelText: 'Email'),
+          validator: (value) {
+            return value.isEmpty ? 'Email is reauired.' : null;
+          },
+          onSaved: (value) {
+            return _email = value;
+          },
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        new TextFormField(
+          decoration: new InputDecoration(labelText: 'Password'),
+          obscureText: true,
+          validator: (value) {
+            return value.isEmpty ? 'Password is reauired.' : null;
+          },
+          onSaved: (value) {
+            return _password = value;
+          },
+        ),
+        SizedBox(
+          height: 30.0,
+        )
+      ];
+    }
+  }
+
+  List<Widget> createButton() {
+    if (_formType == FormType.login) {
+      return [
+        new RaisedButton(
+          child: new Text(
+            "Login",
+            style: new TextStyle(fontSize: 20.0),
+          ),
+          textColor: Colors.white,
+          color: Colors.blue,
+          onPressed: validateAndSubmit,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          
+        ),
+        new FlatButton(
+          child: new Text(
+            "Not Have an Account? Create Account",
+            style: new TextStyle(fontSize: 14.0),
+          ),
+          textColor: Colors.blue,
+          onPressed: moveToRegister,
+        )
+      ];
+    } else {
+      return [
+        new RaisedButton(
+          child: new Text(
+            "Create an Account",
+            style: new TextStyle(fontSize: 20.0),
+          ),
+          textColor: Colors.white,
+          color: Colors.blue,
+          onPressed: validateAndSubmit,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        ),
+        new FlatButton(
+          child: new Text(
+            "Have an Account? Login",
+            style: new TextStyle(fontSize: 14.0),
+          ),
+          textColor: Colors.blue,
+          onPressed: moveToLogin,
+        )
+      ];
+    }
+  }
+
+  Widget logo() {
+    if (_formType == FormType.login) {
+      return new Hero(
+        tag: 'Hero',
+        child: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 80.0,
+          child: Image.asset('images/logo.png'),
+        ),
+      );
+    } else {
+      return new Hero(
+        tag: 'Hero',
+        child: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 30.0,
+          child: Image.asset('images/logo.png'),
+        ),
+      );
+    }
+  }
 }
-
-
